@@ -25,7 +25,10 @@ obj-$(CONFIG_USB_NET_RNDIS_HOST)	+= rndis_host.o
 obj-$(CONFIG_USB_NET_CDC_SUBSET)	+= cdc_subset.o
 obj-$(CONFIG_USB_NET_ZAURUS)	+= zaurus.o
 obj-$(CONFIG_USB_NET_MCS7830)	+= mcs7830.o
-obj-$(CONFIG_USB_USBNET)	+= usbnet.o RnicDemandDialFileIO.o
+obj-$(CONFIG_USB_USBNET)	+= usbnet.o
+# HB2: RnicDemandDialFileIO.o needs syswatch_nl_send + ATP_MSG_* enums from
+# vendor sources absent in this tree (breaks the build); nothing enabled
+# here references it (only hw_cdc_driver.c, itself off). Dropped.
 obj-$(CONFIG_USB_NET_INT51X1)	+= int51x1.o
 obj-$(CONFIG_USB_CDC_PHONET)	+= cdc-phonet.o
 obj-$(CONFIG_USB_NET_KALMIA)	+= kalmia.o
