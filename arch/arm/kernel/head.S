@@ -86,6 +86,20 @@
 	__HEAD
 ENTRY(stext)
 
+	/* HB2 DEBUG POKE K1: prove kernel proper executes (remove later).
+	 * UART1 phys 0x1010f000, LSR +0x14 bit5 TX-empty. Uses r3/r0 only;
+	 * r1 (machid) and r2 (atags) preserved. movw/movt: no literal pool. */
+	movw	r3, #0xf000
+	movt	r3, #0x1010
+10011:	ldr	r0, [r3, #0x14]
+	tst	r0, #0x20
+	beq	10011b
+	mov	r0, #'K'
+	str	r0, [r3]
+	mov	r0, #0x31		@ '1'
+	str	r0, [r3]
+	mov	r0, #0			@ restore ARM boot r0=0
+
  THUMB(	adr	r9, BSYM(1f)	)	@ Kernel is always entered in ARM.
  THUMB(	bx	r9		)	@ If this is a Thumb-2 kernel,
  THUMB(	.thumb			)	@ switch to Thumb now.
@@ -121,6 +135,16 @@ ENTRY(stext)
 	 * r8 = phys_offset, r9 = cpuid, r10 = procinfo
 	 */
 	bl	__vet_atags
+	/* HB2 DEBUG POKE K2 (phys): vet_atags returned */
+	movw	r3, #0xf000
+	movt	r3, #0x1010
+10021:	ldr	r0, [r3, #0x14]
+	tst	r0, #0x20
+	beq	10021b
+	mov	r0, #'K'
+	str	r0, [r3]
+	mov	r0, #0x32		@ '2'
+	str	r0, [r3]
 #ifdef CONFIG_SMP_ON_UP
 	bl	__fixup_smp
 #endif
@@ -128,6 +152,16 @@ ENTRY(stext)
 	bl	__fixup_pv_table
 #endif
 	bl	__create_page_tables
+	/* HB2 DEBUG POKE K3 (phys): page tables created */
+	movw	r3, #0xf000
+	movt	r3, #0x1010
+10031:	ldr	r0, [r3, #0x14]
+	tst	r0, #0x20
+	beq	10031b
+	mov	r0, #'K'
+	str	r0, [r3]
+	mov	r0, #0x33		@ '3'
+	str	r0, [r3]
 
 	/*
 	 * The following calls CPU specific code in a position independent
@@ -143,7 +177,18 @@ ENTRY(stext)
  ARM(	add	pc, r10, #PROCINFO_INITFUNC	)
  THUMB(	add	r12, r10, #PROCINFO_INITFUNC	)
  THUMB(	mov	pc, r12				)
-1:	b	__enable_mmu
+1:	/* HB2 DEBUG POKE K4 (phys): proc initfunc returned, about to enable MMU.
+	 * Uses r3/r12 only; r0 (ctrl), r1, r2, r8 preserved. */
+	movw	r3, #0xf000
+	movt	r3, #0x1010
+10041:	ldr	r12, [r3, #0x14]
+	tst	r12, #0x20
+	beq	10041b
+	mov	r12, #'K'
+	str	r12, [r3]
+	mov	r12, #0x34		@ '4'
+	str	r12, [r3]
+	b	__enable_mmu
 ENDPROC(stext)
 	.ltorg
 #ifndef CONFIG_XIP_KERNEL

@@ -124,6 +124,70 @@ hi_void clk_disable(struct clk *pst_clk)
 
 hi_ulong32 clk_get_rate(struct clk *pst_clk)
 {
+	return 0;
 }
 
+int sd5610x_gpio_bit_write(unsigned int gpio, unsigned int level)
+{
+	unsigned int bank = gpio / 32;
+	unsigned int bit = gpio % 32;
+	void __iomem *base;
+	unsigned int val;
 
+	if (bank > 7)
+		return -EINVAL;
+
+	base = (void __iomem *)hi_io_address(HI_REG_BASE_GPIO0 + bank * 0x1000);
+	val = readl(base + 0x00);
+	if (level)
+		val |= (1 << bit);
+	else
+		val &= ~(1 << bit);
+	writel(val, base + 0x00);
+	return 0;
+}
+EXPORT_SYMBOL(sd5610x_gpio_bit_write);
+
+int sd5610x_gpio_bit_attr_set(unsigned int gpio, unsigned int mode)
+{
+	unsigned int bank = gpio / 32;
+	unsigned int bit = gpio % 32;
+	void __iomem *base;
+	unsigned int val;
+
+	if (bank > 7)
+		return -EINVAL;
+
+	base = (void __iomem *)hi_io_address(HI_REG_BASE_GPIO0 + bank * 0x1000);
+
+	if (mode == 2) {
+		/* HW mode */
+		val = readl(base + 0x08);
+		val |= (1 << bit);
+		writel(val, base + 0x08);
+	} else {
+		/* GPIO mode: disable HW special function */
+		val = readl(base + 0x08);
+		val &= ~(1 << bit);
+		writel(val, base + 0x08);
+
+		/* Set direction (0: input, 1: output) */
+		val = readl(base + 0x04);
+		if (mode == 1)
+			val |= (1 << bit);
+		else
+			val &= ~(1 << bit);
+		writel(val, base + 0x04);
+	}
+	return 0;
+}
+EXPORT_SYMBOL(sd5610x_gpio_bit_attr_set);
+
+void sd5610x_iomux_set_gpio_mode(unsigned int gpio)
+{
+	void __iomem *iomux = (void __iomem *)hi_io_address(HI_REG_BASE_IOMUX);
+	if (gpio < 32) {
+		writel(readl(iomux + 0x1ac) | (1 << gpio), iomux + 0x1ac);
+	}
+}
+EXPORT_SYMBOL(sd5610x_iomux_set_gpio_mode);

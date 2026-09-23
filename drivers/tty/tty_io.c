@@ -1048,6 +1048,7 @@ EXPORT_SYMBOL(mlog_get_tty_name);
 
 void tty_log_write(const char* name, const unsigned char *data, size_t len, int mode)
 {
+#if defined(CONFIG_BUILD_ATP_MLOG)
     static int s_isLoop = 0;
     int i = 0;
 
@@ -1086,6 +1087,7 @@ void tty_log_write(const char* name, const unsigned char *data, size_t len, int 
         if (g_iLenthTtyLog < MAXITEM_TTY_LOG)
             g_iLenthTtyLog++;
     }
+#endif
 }
 EXPORT_SYMBOL(tty_log_write);
 

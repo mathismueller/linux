@@ -383,4 +383,4 @@ config SIGNATURE
 
 endmenu
 
-source "atpbuild/package/atp/KConfig.in"
+#source "atpbuild/package/atp/KConfig.in"

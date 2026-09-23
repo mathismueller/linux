@@ -66,6 +66,9 @@
 #include "atags.h"
 #include "tcm.h"
 
+/* HB2 DEBUG (remove later) */
+extern void printascii(const char *);
+
 #ifndef MEM_SIZE
 #define MEM_SIZE	(16*1024*1024)
 #endif
@@ -111,9 +114,7 @@ EXPORT_SYMBOL(elf_hwcap);
 #ifdef MULTI_CPU
 struct processor processor __read_mostly;
 #endif
-#ifdef MULTI_TLB
 struct cpu_tlb_fns cpu_tlb __read_mostly;
-#endif
 #ifdef MULTI_USER
 struct cpu_user_fns cpu_user __read_mostly;
 #endif
@@ -468,9 +469,7 @@ static void __init setup_processor(void)
 #ifdef MULTI_CPU
 	processor = *list->proc;
 #endif
-#ifdef MULTI_TLB
 	cpu_tlb = *list->tlb;
-#endif
 #ifdef MULTI_USER
 	cpu_user = *list->user;
 #endif
@@ -1003,9 +1002,12 @@ void __init setup_arch(char **cmdline_p)
 	sort(&meminfo.bank, meminfo.nr_banks, sizeof(meminfo.bank[0]), meminfo_cmp, NULL);
 	sanity_check_meminfo();
 	arm_memblock_init(&meminfo, mdesc);
+	printascii("SA1\n");
 
 	paging_init(mdesc);
+	printascii("SA2\n");
 	request_standard_resources(mdesc);
+	printascii("SA3\n");
 
 	if (mdesc->restart)
 		arm_pm_restart = mdesc->restart;
@@ -1015,6 +1017,7 @@ void __init setup_arch(char **cmdline_p)
 #ifdef CONFIG_SMP
 	if (is_smp())
 		smp_init_cpus();
+	printascii("SA4\n");
 #endif
 	reserve_crashkernel();
 

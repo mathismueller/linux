@@ -16,10 +16,10 @@
 struct stable_node;
 struct mem_cgroup;
 
+#ifdef CONFIG_KSM
 struct page *ksm_does_need_to_copy(struct page *page,
 			struct vm_area_struct *vma, unsigned long address);
 
-#ifdef CONFIG_KSM
 int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
 		unsigned long end, int advice, unsigned long *vm_flags);
 int __ksm_enter(struct mm_struct *mm);
@@ -140,6 +140,12 @@ static inline void ksm_migrate_page(struct page *newpage, struct page *oldpage)
 {
 }
 #endif /* CONFIG_MMU */
+
+static inline struct page *ksm_does_need_to_copy(struct page *page,
+			struct vm_area_struct *vma, unsigned long address)
+{
+	return page;
+}
 #endif /* !CONFIG_KSM */
 
 #endif /* __LINUX_KSM_H */

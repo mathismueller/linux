@@ -1217,7 +1217,7 @@ static int notesize(struct memelfnote *en)
 static int alignfile(struct file *file, loff_t *foffset)
 {
 	static const char buf[4] = { 0, };
-	DUMP_WRITE(buf, roundup(*foffset, 4) - *foffset, foffset);
+	DUMP_WRITE(buf, round_up(*foffset, 4) - *foffset, foffset);
 	return 1;
 }
 
@@ -1991,7 +1991,7 @@ static int elf_core_dump(struct coredump_params *cprm)
 		offset += sz;
 	}
 
-	dataoff = offset = roundup(offset, ELF_EXEC_PAGESIZE);
+	dataoff = offset = round_up(offset, ELF_EXEC_PAGESIZE);
 
 	offset += elf_core_vma_data_size(gate_vma, cprm->mm_flags);
 	offset += elf_core_extra_data_size();

@@ -286,8 +286,16 @@ static inline loff_t page_offset(struct page *page)
 	return ((loff_t)page->index) << PAGE_CACHE_SHIFT;
 }
 
+#ifdef CONFIG_HUGETLB_PAGE
 extern pgoff_t linear_hugepage_index(struct vm_area_struct *vma,
 				     unsigned long address);
+#else
+static inline pgoff_t linear_hugepage_index(struct vm_area_struct *vma,
+				     unsigned long address)
+{
+	return 0;
+}
+#endif
 
 static inline pgoff_t linear_page_index(struct vm_area_struct *vma,
 					unsigned long address)

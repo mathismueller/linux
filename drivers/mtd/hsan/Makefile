@@ -4,5 +4,5 @@
 
 obj-y += hi_mtd_parts.o
 
-obj-y += nand/
+obj-$(CONFIG_MTD_HSAN_NAND) += nand/
 

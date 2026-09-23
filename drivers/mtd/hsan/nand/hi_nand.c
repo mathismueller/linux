@@ -642,13 +642,15 @@ static struct platform_driver g_st_nand_pltdrv =
     .remove         = hi_nand_remove,
 };
 
+static u64 nand_dma_mask = DMA_BIT_MASK(32);
+
 static struct platform_device g_st_nand_pltdev =
 {
     .name                   = "hi_nfc",
     .id                     = -1,
 
     .dev.platform_data      = HI_NULL,
-    .dev.dma_mask           = (hi_uint32*)~0,
+    .dev.dma_mask           = &nand_dma_mask,
     .dev.coherent_dma_mask  = (hi_uint32) ~0,
     .dev.release            = hi_nand_pltdev_release,
 

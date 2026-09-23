@@ -78,6 +78,17 @@ ENDPROC(__vet_atags)
  */
 	__INIT
 __mmap_switched:
+	/* HB2 DEBUG POKE K5 (VIRTUAL UART 0xf810f000, MMU is on).
+	 * Uses r3/r12 only; r0/r1/r2/r9 preserved. */
+	movw	r3, #0xf000
+	movt	r3, #0xf810
+10051:	ldr	r12, [r3, #0x14]
+	tst	r12, #0x20
+	beq	10051b
+	mov	r12, #'K'
+	str	r12, [r3]
+	mov	r12, #0x35		@ '5'
+	str	r12, [r3]
 	adr	r3, __mmap_switched_data
 
 	ldmia	r3!, {r4, r5, r6, r7}

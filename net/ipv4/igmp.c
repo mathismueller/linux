@@ -864,7 +864,7 @@ static void igmp_ifc_event(struct in_device *in_dev)
 
 
 /* BEGIN: Added , 2010/7/10   PN:xxxxxx*/
-static void igmp_timer_v1v2leaveexpire(unsigned long data)
+static void __maybe_unused igmp_timer_v1v2leaveexpire(unsigned long data)
 {
 	struct ip_mc_list *im=(struct ip_mc_list *)data;
 	struct in_device *in_dev = im->interface;
@@ -1855,10 +1855,10 @@ static int ip_mc_del_src(struct in_device *in_dev, __be32 *pmca, int sfmode,
 			} else {
 				psf->sf_crcount = 0;
 			}
-		}
 #else
 			psf->sf_crcount = 0;
 #endif
+		}
 		igmp_ifc_event(pmc->interface);
 	} else if (sf_setstate(pmc) || changerec) {
 		igmp_ifc_event(pmc->interface);

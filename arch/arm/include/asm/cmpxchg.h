@@ -133,7 +133,7 @@ extern void __bad_cmpxchg(volatile void *ptr, int size);
  * cmpxchg only support 32-bits operands on ARMv6.
  */
 
-static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
+static __always_inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
 				      unsigned long new, int size)
 {
 	unsigned long oldval, res;
@@ -185,7 +185,7 @@ static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
 	return oldval;
 }
 
-static inline unsigned long __cmpxchg_mb(volatile void *ptr, unsigned long old,
+static __always_inline unsigned long __cmpxchg_mb(volatile void *ptr, unsigned long old,
 					 unsigned long new, int size)
 {
 	unsigned long ret;
@@ -203,7 +203,7 @@ static inline unsigned long __cmpxchg_mb(volatile void *ptr, unsigned long old,
 					  (unsigned long)(n),		\
 					  sizeof(*(ptr))))
 
-static inline unsigned long __cmpxchg_local(volatile void *ptr,
+static __always_inline unsigned long __cmpxchg_local(volatile void *ptr,
 					    unsigned long old,
 					    unsigned long new, int size)
 {

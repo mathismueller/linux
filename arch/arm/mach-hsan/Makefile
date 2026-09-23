@@ -8,7 +8,6 @@ LDFLAGS  		+=--no-warn-mismatch
 
 obj-y := hi_mach.o 
 obj-y += hi_serial.o
-obj-m += hi_serial_uart1.o
 ifeq ($(CONFIG_SMP),y)
 obj-y += hi_platsmp.o hi_headsmp.o
 obj-y += hi_hotplug.o

@@ -36,6 +36,16 @@ config HSAN_EDB
     default n
     help
         used to early debug
+
+config MTD_HSAN_NAND
+    bool "HSAN NAND flash driver (needs ATAG_FLASH from bootloader)"
+    default y
+    help
+        HiSilicon NAND driver reads its spec/BBT from the vendor
+        ATAG_FLASH tag. U-Boot's TFTP boot path does not provide it,
+        so TFTP-booted rescue kernels must disable this ( =n )
+        or the probe dereferences NULL and Oopses in
+        hi_nand_kernel_get_spec.
         
 menu "HSAN memory partition address"
 

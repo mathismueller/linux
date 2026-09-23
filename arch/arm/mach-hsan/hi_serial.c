@@ -598,6 +598,7 @@ static hi_int32 hi_uart_init(hi_void)
     }
 
     uart_add_one_port(&g_st_uart_driver, &g_st_uart_port[0]);
+    uart_add_one_port(&g_st_uart_driver, &g_st_uart_port[1]);
 
     hi_trace();
     return 0;
@@ -605,6 +606,7 @@ static hi_int32 hi_uart_init(hi_void)
 
 static hi_void hi_uart_exit(hi_void)
 {
+    uart_remove_one_port(&g_st_uart_driver, &g_st_uart_port[1]);
     uart_remove_one_port(&g_st_uart_driver, &g_st_uart_port[0]);
 	uart_unregister_driver(&g_st_uart_driver);
     hi_trace();

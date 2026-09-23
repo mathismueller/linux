@@ -23,8 +23,8 @@
 #include <net/sock.h>
 #include <net/net_ratelimit.h>
 
-extern int net_msg_dns;
-extern char acdefaultdnsdomain[512];
+int net_msg_dns = 0;
+char acdefaultdnsdomain[512] = {0};
 #ifdef CONFIG_ATP_SKB_LIMIT
 extern atomic_t skb_buff_alloc_num;
 extern volatile unsigned long skb_max_alloc_num;

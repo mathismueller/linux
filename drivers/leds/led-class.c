@@ -26,9 +26,9 @@
 #include "leds.h"
 
 static struct class *leds_class;
-#if 1
-extern void led_traffic_report( struct led_classdev* led_cdev);
-#endif
+void __attribute__((weak)) led_traffic_report(struct led_classdev* led_cdev)
+{
+}
 
 static void led_update_brightness(struct led_classdev *led_cdev)
 {

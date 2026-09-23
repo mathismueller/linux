@@ -126,6 +126,11 @@
 extern int arp_is_need_reply(struct net_device *dev, __be32 sip, __be32 tip);
 #endif
 extern int arp_need_learn_from_request(struct sk_buff *skb);
+#else
+static inline int arp_need_learn_from_request(struct sk_buff *skb)
+{
+	return 1;
+}
 #endif
 
 /*

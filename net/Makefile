@@ -72,5 +72,5 @@ obj-$(CONFIG_NFC)		+= nfc/
 obj-$(CONFIG_OPENVSWITCH)	+= openvswitch/
 
 ifeq ($(CONFIG_HSAN),y)
-obj-m				+= softqos/
+# obj-m				+= softqos/
 endif

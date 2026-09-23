@@ -143,10 +143,21 @@ void page_add_new_anon_rmap(struct page *, struct vm_area_struct *, unsigned lon
 void page_add_file_rmap(struct page *);
 void page_remove_rmap(struct page *);
 
+#ifdef CONFIG_HUGETLB_PAGE
 void hugepage_add_anon_rmap(struct page *, struct vm_area_struct *,
 			    unsigned long);
 void hugepage_add_new_anon_rmap(struct page *, struct vm_area_struct *,
 				unsigned long);
+#else
+static inline void hugepage_add_anon_rmap(struct page *page,
+			    struct vm_area_struct *vma, unsigned long address)
+{
+}
+static inline void hugepage_add_new_anon_rmap(struct page *page,
+			    struct vm_area_struct *vma, unsigned long address)
+{
+}
+#endif
 
 static inline void page_dup_rmap(struct page *page)
 {

@@ -275,7 +275,7 @@ struct ppp_net {
 #define seq_after(a, b)		((s32)((a) - (b)) > 0)
 
 /* 按需拨号中的wan lan bind关系*/
-extern char g_acWanBind[8][128];
+char g_acWanBind[8][128];
 
 /* Prototypes. */
 static int ppp_unattached_ioctl(struct net *net, struct ppp_file *pf,
@@ -1565,7 +1565,6 @@ brcm_on_demand_filter(char *data)
 }
 #endif
 
-#ifdef CONFIG_SUPPORT_ATP
 static struct sk_buff* get_original_skb(struct sk_buff *skb)
 {
     struct sk_buff *skb2 = NULL;
@@ -1588,7 +1587,6 @@ static struct sk_buff* get_original_skb(struct sk_buff *skb)
 
     return skb2;
 }
-#endif
 /*
  * Compress and send a frame.
  * The caller should have locked the xmit path,

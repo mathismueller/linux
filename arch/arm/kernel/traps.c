@@ -1062,3 +1062,9 @@ void __init early_trap_init(void *vectors_base)
 	flush_icache_range(vectors, vectors + PAGE_SIZE);
 	modify_domain(DOMAIN_USER, DOMAIN_CLIENT);
 }
+
+void __bad_cmpxchg(volatile void *ptr, int size)
+{
+	BUG();
+}
+EXPORT_SYMBOL(__bad_cmpxchg);
