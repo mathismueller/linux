@@ -191,3 +191,12 @@ void sd5610x_iomux_set_gpio_mode(unsigned int gpio)
 	}
 }
 EXPORT_SYMBOL(sd5610x_iomux_set_gpio_mode);
+
+/*
+ * HB2: vendor 2017 module hi_kgpio.ko needs the gpioLock spinlock but
+ * provides hi_gpio_bit_* itself (duplicate-symbol if we also export
+ * them). Only the lock is provided here.
+ */
+#include <linux/spinlock.h>
+spinlock_t gpioLock = __SPIN_LOCK_UNLOCKED(gpioLock);
+EXPORT_SYMBOL(gpioLock);
