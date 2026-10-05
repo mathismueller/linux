@@ -1,0 +1,52 @@
+#
+# Linux Kernel .gitignore for HiSilicon / Home Base 2
+#
+
+# Core build artifacts
+*.o
+*.o.cmd
+.*.cmd
+*.ko
+*.mod.c
+modules.order
+Module.symvers
+vmlinux
+vmlinux.o
+System.map
+.version
+.config
+.config.old
+.tmp_*
+.*.d
+*.a
+*.s
+
+# Generated kernel headers & assembly offsets
+arch/arm/include/generated/
+arch/arm/kernel/asm-offsets.s
+arch/arm/lib/lib.a
+kernel/bounds.s
+lib/lib.a
+include/config/
+include/generated/
+include/linux/version.h
+
+# Initramfs built-in artifacts
+usr/initramfs_data.cpio.xz
+usr/.initramfs_data.cpio.d
+usr/gen_init_cpio
+
+# Built host tools
+scripts/kconfig/conf
+scripts/kconfig/zconf.tab.c
+scripts/kconfig/zconf.lex.c
+scripts/basic/fixdep
+scripts/mod/modpost
+scripts/mod/elfconfig.h
+scripts/mod/mk_elfconfig
+scripts/kallsyms
+
+# Boot images
+arch/arm/boot/uImage
+arch/arm/boot/zImage
+arch/arm/boot/Image
