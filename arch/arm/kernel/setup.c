@@ -1002,12 +1002,18 @@ void __init setup_arch(char **cmdline_p)
 	sort(&meminfo.bank, meminfo.nr_banks, sizeof(meminfo.bank[0]), meminfo_cmp, NULL);
 	sanity_check_meminfo();
 	arm_memblock_init(&meminfo, mdesc);
+#ifdef CONFIG_DEBUG_LL
 	printascii("SA1\n");
+#endif
 
 	paging_init(mdesc);
+#ifdef CONFIG_DEBUG_LL
 	printascii("SA2\n");
+#endif
 	request_standard_resources(mdesc);
+#ifdef CONFIG_DEBUG_LL
 	printascii("SA3\n");
+#endif
 
 	if (mdesc->restart)
 		arm_pm_restart = mdesc->restart;
@@ -1017,7 +1023,9 @@ void __init setup_arch(char **cmdline_p)
 #ifdef CONFIG_SMP
 	if (is_smp())
 		smp_init_cpus();
+#ifdef CONFIG_DEBUG_LL
 	printascii("SA4\n");
+#endif
 #endif
 	reserve_crashkernel();
 

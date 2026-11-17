@@ -482,8 +482,10 @@ asmlinkage void __init start_kernel(void)
 {
 	char * command_line;
 	extern const struct kernel_param __start___param[], __stop___param[];
+#ifdef CONFIG_DEBUG_LL
 	extern void printascii(const char *); /* HB2 DEBUG (remove later) */
 	printascii("K6\n");
+#endif
 
 	/*
 	 * Need to run as early as possible, to initialize the
@@ -513,7 +515,9 @@ asmlinkage void __init start_kernel(void)
 	page_address_init();
 	printk(KERN_NOTICE "%s", linux_banner);
 	setup_arch(&command_line);
+#ifdef CONFIG_DEBUG_LL
 	printascii("K7\n");
+#endif
 	mm_init_owner(&init_mm, &init_task);
 	mm_init_cpumask(&init_mm);
 	setup_command_line(command_line);
@@ -526,7 +530,9 @@ asmlinkage void __init start_kernel(void)
 
 	printk(KERN_NOTICE "Kernel command line: %s\n", boot_command_line);
 	parse_early_param();
+#ifdef CONFIG_DEBUG_LL
 	printascii("K8\n");
+#endif
 	parse_args("Booting kernel", static_command_line, __start___param,
 		   __stop___param - __start___param,
 		   -1, -1, &unknown_bootoption);
@@ -589,7 +595,9 @@ asmlinkage void __init start_kernel(void)
 	 * this. But we do want output early, in case something goes wrong.
 	 */
 	console_init();
+#ifdef CONFIG_DEBUG_LL
 	printascii("K9\n");
+#endif
 	if (panic_later)
 		panic(panic_later, panic_param);
 
@@ -834,8 +842,10 @@ static void __init do_pre_smp_initcalls(void)
 
 static void run_init_process(const char *init_filename)
 {
+#ifdef CONFIG_DEBUG_LL
 	extern void printascii(const char *); /* HB2 DEBUG */
 	printascii("RUNI\n");
+#endif
 	argv_init[0] = init_filename;
 	kernel_execve(init_filename, argv_init, envp_init);
 }
@@ -845,8 +855,10 @@ static void run_init_process(const char *init_filename)
  */
 static noinline int init_post(void)
 {
+#ifdef CONFIG_DEBUG_LL
 	extern void printascii(const char *); /* HB2 DEBUG */
 	printascii("IPOST\n");
+#endif
 	/* need to finish all async __init code before freeing the memory */
 	async_synchronize_full();
 	free_initmem();
